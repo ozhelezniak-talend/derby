@@ -26,7 +26,7 @@
   <parent>
     <groupId>org.apache.derby</groupId>
     <artifactId>derby-project</artifactId>
-    <version>10.16.1.2-talend-20260121</version>
+    <version>10.16.1.2-talend-20260122</version>
   </parent>
   <artifactId>derbyoptionaltools</artifactId>
   <name>Apache Derby Optional Tools</name>
@@ -37,19 +37,19 @@
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
-      <version>10.16.1.2-talend-20260121</version>
+      <version>10.16.1.2-talend-20260122</version>
       <optional>false</optional>
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derbyshared</artifactId>
-      <version>10.16.1.2-talend-20260121</version>
+      <version>10.16.1.2-talend-20260122</version>
       <optional>false</optional>
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derbytools</artifactId>
-      <version>10.16.1.2-talend-20260121</version>
+      <version>10.16.1.2-talend-20260122</version>
       <optional>false</optional>
     </dependency>
   </dependencies>

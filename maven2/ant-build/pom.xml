@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.apache.derby</groupId>
         <artifactId>derby-project</artifactId>
-        <version>10.16.1.2-talend-20260121</version>
+        <version>10.16.1.2-talend-20260122</version>
     </parent>
 
     <artifactId>ant-build</artifactId>

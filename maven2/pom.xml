@@ -29,12 +29,20 @@
         <version>37</version>
     </parent>
     <artifactId>derby-project</artifactId>
-    <version>10.16.1.2-talend-20260121</version>
+    <version>10.16.1.2-talend-20260122</version>
     <packaging>pom</packaging>
     <name>Apache Derby Project</name>
     <description>Apache Derby is an open source relational database implemented entirely in Java.</description>
     <url>http://db.apache.org/derby/</url>
     <inceptionYear>2004</inceptionYear>
+
+    <distributionManagement>
+        <repository>
+            <id>talend_nexus_deployment</id>
+            <url>${talend.nexus.url}/nexus/content/repositories/TalendOpenSourceRelease/</url>
+        </repository>
+    </distributionManagement>
+
     <organization>
         <name>Apache Software Foundation</name>
         <url>http://db.apache.org/</url>
@@ -108,6 +116,9 @@
 
     <!-- Properties used throughout the build / install. -->
     <properties>
+        <!-- Nexus -->
+        <talend.nexus.url>https://artifacts-oss.talend.com</talend.nexus.url>
+
         <!-- Have Maven generate checksums (MD5 and SHA1) for the artifacts. -->
         <createChecksum>true</createChecksum>
         <!-- All plugins should use this value.
