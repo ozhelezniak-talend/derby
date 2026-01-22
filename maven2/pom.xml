@@ -90,7 +90,6 @@
     <module>client</module>
     <module>tools</module>
     <module>optionaltools</module>
-<!--    <module>war</module>-->
     <module>derbyLocale_cs</module>
     <module>derbyLocale_de_DE</module>
     <module>derbyLocale_es</module>
@@ -105,29 +104,6 @@
     <module>derbyLocale_zh_CN</module>
     <module>derbyLocale_zh_TW</module>
   </modules>
-
-  <build>
-    <plugins>
-      <!-- Generate signatures for the artifacts using GnuPG.
-           This requires that you have GnuPG installed and in the search path.
-        -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>3.2.8</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-  </plugins>
-  </build>
 
   <!-- Properties used throughout the build / install. -->
   <properties>
