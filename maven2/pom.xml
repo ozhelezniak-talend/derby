@@ -84,6 +84,7 @@
     </scm>
 
     <modules>
+        <module>ant-build</module>
         <module>engine</module>
         <module>commons</module>
         <module>net</module>
@@ -104,34 +105,6 @@
         <module>derbyLocale_zh_CN</module>
         <module>derbyLocale_zh_TW</module>
     </modules>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <target>
-                                <ant antfile="${project.basedir}/../build.xml" target="clobber"
-                                     dir="${project.basedir}/.." inheritAll="true"/>
-                                <ant antfile="${project.basedir}/../build.xml" target="buildsource"
-                                     dir="${project.basedir}/.." inheritAll="true"/>
-                                <ant antfile="${project.basedir}/../build.xml" target="buildjars"
-                                     dir="${project.basedir}/.." inheritAll="true"/>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 
     <!-- Properties used throughout the build / install. -->
     <properties>
