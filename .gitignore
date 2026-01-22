@@ -12,3 +12,41 @@
 /javadoc/
 /packageListLoc-j2ee-7/
 /packageListLoc-se-8/
+
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+.idea
+*.iml
+target
+.project
+.settings
+
+# yarn and node
+.node
+package-lock.json
+yarn.lock
+node_modules
+tmp/

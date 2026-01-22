@@ -52,6 +52,9 @@ import java.sql.SQLException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * This contains an instance of a SQL Time
@@ -81,6 +84,7 @@ public final class SQLTime extends DataType
 	private int		encodedTime;
 	private int		encodedTimeFraction; //currently always 0 since we don't
 											 //support time precision
+    static final LocalDate TIME_EPOCH = LocalDate.of(1970, 1, 1);
 
 	/*
 	** DataValueDescriptor interface
@@ -151,6 +155,14 @@ public final class SQLTime extends DataType
 			return new Timestamp(cal.getTimeInMillis());
 		}
 	}
+
+    public LocalDateTime getLocalDateTime()
+    {
+        if (isNull())
+            return null;
+        // Derby's resolution for the TIME type is only seconds.
+        return SQLTime.getLocalTime(encodedTime, 0).atDate(TIME_EPOCH);
+    }
 
 	public Object getObject()
 	{
@@ -587,6 +599,17 @@ public final class SQLTime extends DataType
 		encodedTime = computeEncodedTime(value, cal);
 	}
 
+    /**
+    @see DateTimeDataValue#setValue
+
+    @exception StandardException thrown on failure.
+     */
+    public void setValue(LocalTime value) throws StandardException
+    {
+        restoreToNull();
+        encodedTime = computeEncodedTime(value);
+    }
+
 	/**
 		@see DateTimeDataValue#setValue
 
@@ -597,6 +620,17 @@ public final class SQLTime extends DataType
 		restoreToNull();
 		encodedTime = computeEncodedTime(value, cal);
 	}
+
+    /**
+     @see DateTimeDataValue#setValue
+
+     @exception StandardException thrown on failure.
+     */
+    public void setValue(LocalDateTime value) throws StandardException
+    {
+        restoreToNull();
+        encodedTime = computeEncodedTime(value != null ? value.toLocalTime() : null);
+    }
 
 
 	public void setValue(String theValue)
@@ -767,6 +801,16 @@ public final class SQLTime extends DataType
         return getTime(cal, encodedTime, 0);
 	}
     
+    public LocalTime getLocalTime()
+    {
+        if (isNull())
+            return null;
+
+          // Derby's SQL TIME type only has second resolution
+          // so pass in 0 for nano-seconds
+        return getLocalTime(encodedTime, 0);
+    }
+    
     /**
      * Set the time portion of a date-time value into
      * the passed in Calendar object from its encodedTime
@@ -781,7 +825,15 @@ public final class SQLTime extends DataType
         cal.set(Calendar.MINUTE, getMinute(encodedTime));
         cal.set(Calendar.SECOND, getSecond(encodedTime));        
     }
-    
+
+    static LocalTime getLocalTime(int encodedTime, int nanos)
+    {
+        return LocalTime.of(getHour(encodedTime),
+            getMinute(encodedTime),
+            getSecond(encodedTime),
+            nanos);
+    }
+
     /**
      * Get a java.sql.Time object from an encoded time
      * and nano-second value. As required by JDBC the
@@ -855,6 +907,15 @@ public final class SQLTime extends DataType
                                   cal.get(Calendar.MINUTE),
                                   cal.get(Calendar.SECOND));
 	}
+
+    static int computeEncodedTime(LocalTime localTime) throws StandardException
+    {
+          if (localTime == null)
+              return -1;
+        return computeEncodedTime(localTime.getHour(),
+                localTime.getMinute(),
+                localTime.getSecond());
+    }
 
     static int computeEncodedTime( int hour, int minute, int second) throws StandardException
     {

@@ -26,10 +26,10 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>10</version>
+    <version>26</version>
   </parent>
   <artifactId>derby-project</artifactId>
-  <version>ALPHA_VERSION</version>
+  <version>10.16.1.2-talend-20260121</version>
   <packaging>pom</packaging>
   <name>Apache Derby Project</name>
   <description>Apache Derby is an open source relational database implemented entirely in Java.</description>
@@ -90,7 +90,7 @@
     <module>client</module>
     <module>tools</module>
     <module>optionaltools</module>
-    <module>war</module>
+<!--    <module>war</module>-->
     <module>derbyLocale_cs</module>
     <module>derbyLocale_de_DE</module>
     <module>derbyLocale_es</module>
@@ -114,6 +114,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.8</version>
         <executions>
           <execution>
             <id>sign-artifacts</id>
@@ -149,7 +150,7 @@
     <!-- Specifies whether to package the sane (debug) or insane jar.
          Valid values: sane|insane
       -->
-    <sanity>insane</sanity>
+    <sanity>sane</sanity>
   </properties>
 
 </project>

@@ -65,6 +65,9 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.RuleBasedCollator;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.text.CollationKey;
 import java.util.Arrays;
 import java.util.Locale;
@@ -515,6 +518,24 @@ public class SQLChar
     }
 
     /**
+     * Get date from a SQLChar.
+     *
+     * @see DataValueDescriptor#getDate
+     *
+     * @exception StandardException thrown on failure to convert
+     **/
+    public LocalDate getLocalDate() 
+            throws StandardException
+    {
+        String str = getString();
+        if( str == null)
+            return null;
+        SQLDate internalDate = new SQLDate(str, false, getLocaleFinder());
+
+        return internalDate.getLocalDate();
+    }
+
+    /**
      * Static function to Get date from a string.
      *
      * @see DataValueDescriptor#getDate
@@ -566,6 +587,15 @@ public class SQLChar
         return internalTime.getTime( cal);
     }
 
+    public LocalTime getLocalTime() throws StandardException
+    {
+        String str = getString();
+        if( str == null)
+            return null;
+        SQLTime internalTime = new SQLTime( str, false, getLocaleFinder());
+        return internalTime.getLocalTime();
+    }
+
     /**
      * Get Timestamp from a SQLChar.
      *
@@ -598,6 +628,17 @@ public class SQLChar
             new SQLTimestamp( str, false, localeFinder, cal);
 
         return internalTimestamp.getTimestamp( cal);
+    }
+
+    public LocalDateTime getLocalDateTime() throws StandardException
+    {
+        String str = getString();
+        if( str == null)
+            return null;
+
+        SQLTimestamp internalTimestamp = 
+            new SQLTimestamp( str, false, getLocaleFinder());
+        return internalTimestamp.getLocalDateTime();
     }
 
     /**************************************************************************
@@ -1607,6 +1648,19 @@ readingLoop:
     }
 
     /** @exception StandardException        Thrown on error */
+    public void setValue(LocalDate theValue) throws StandardException
+    {
+        String strValue = null;
+        if( theValue != null)
+        {
+            StringBuffer sb = new StringBuffer();
+            formatLocalDate( theValue, sb);
+            strValue= sb.toString();
+        }
+        setValue( strValue);
+    }
+
+    /** @exception StandardException        Thrown on error */
     public void setValue(Time theValue, Calendar cal) throws StandardException
     {
         String strValue = null;
@@ -1621,6 +1675,19 @@ readingLoop:
                 formatJDBCTime( cal, sb);
                 strValue= sb.toString();
             }
+        }
+        setValue( strValue);
+    }
+
+    /** @exception StandardException        Thrown on error */
+    public void setValue(LocalTime theValue) throws StandardException
+    {
+        String strValue = null;
+        if( theValue != null)
+        {
+            StringBuffer sb = new StringBuffer();
+            formatLocalTime( theValue, sb);
+            strValue= sb.toString();
         }
         setValue( strValue);
     }
@@ -1680,12 +1747,68 @@ readingLoop:
         setValue( strValue);
     }
 
+    /** @exception StandardException        Thrown on error */
+    public void setValue(
+    LocalDateTime   theValue) 
+        throws StandardException
+    {
+        String strValue = null;
+        if( theValue != null)
+        {
+            StringBuffer sb = new StringBuffer();
+            formatLocalDate( theValue.toLocalDate(), sb);
+            sb.append( ' ');
+            formatLocalTime( theValue.toLocalTime(), sb);
+            sb.append('.');
+            
+            int nanos = theValue.getNano();
+            
+            if (nanos == 0)
+            {
+                // Add a single zero after the decimal point to match
+                // the format from Timestamp.toString().
+                sb.append('0');
+            }
+            else if (nanos > 0)
+            {
+                String nanoString = Integer.toString(nanos);
+                int len = nanoString.length();
+                
+                // Add leading zeros if nanoString is shorter than
+                // MAX_FRACTION_DIGITS.
+                for (int i = len;
+                        i < SQLTimestamp.MAX_FRACTION_DIGITS; i++)
+                {
+                    sb.append('0');
+                }
+                
+                // Remove trailing zeros to match the format from
+                // Timestamp.toString().
+                while (nanoString.charAt(len - 1) == '0') {
+                    len--;
+                }
+                
+                sb.append(nanoString.substring(0, len));
+            strValue= sb.toString();
+            }
+        }
+        setValue( strValue);
+    }
+
     private void formatJDBCDate( Calendar cal, StringBuffer sb)
     {
         SQLDate.dateToString( cal.get( Calendar.YEAR),
                               cal.get( Calendar.MONTH) - Calendar.JANUARY + 1,
                               cal.get( Calendar.DAY_OF_MONTH),
                               sb);
+    }
+
+    private void formatLocalDate( LocalDate localDate, StringBuffer sb)
+    {
+        SQLDate.dateToString( localDate.getYear(),
+                localDate.getMonthValue(),
+                localDate.getDayOfMonth(),
+                sb);
     }
 
     private void formatJDBCTime( Calendar cal, StringBuffer sb)
@@ -1695,6 +1818,15 @@ readingLoop:
             cal.get(Calendar.MINUTE), 
             cal.get(Calendar.SECOND), 
             sb);
+    }
+
+    private void formatLocalTime( LocalTime localTime, StringBuffer sb)
+    {
+        SQLTime.timeToString(
+                localTime.getHour(),
+                localTime.getMinute(), 
+                localTime.getSecond(), 
+                sb);
     }
 
     /**

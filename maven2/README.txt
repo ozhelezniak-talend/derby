@@ -47,7 +47,7 @@ Description of the required steps:
       o The Derby release version.
         The version must be specified in all POMs. Compile and execute the
         Java program SetDerbyVersion, found in the 'maven2' directory, i.e.:
-            javac SetDerbyVersion && java -cp .:../jars/insane/derbyshared.jar:../jars/insane/derby.jar SetDerbyVersion
+            javac SetDerbyVersion.java && java -cp .:../jars/insane/derbyshared.jar:../jars/insane/derby.jar SetDerbyVersion
 
         Alternatively, use search and replace (i.e. Perl or sed) - make sure
         you don't replace version tags that aren't supposed to be modified.
@@ -103,6 +103,14 @@ Description of the required steps:
 
         mvn -Dgpg.passphrase="my secret passphrase" deploy
 
+    During the staging of 10.16.1.1, this step kept failing midway
+    with "peer not authenticated" errors. The problem was overcome
+    by re-issuing the command with a resume directive (in this case,
+    resuming at the Korean localizations where the original command
+    had errored out):
+
+        mvn -Dgpg.passphrase="my secret passphrase" deploy -rf :derbyLocale_ko_KR
+
  e) Close the staging repository in Nexus.
     Once you have deployed the artifacts you should close the staging
     repository to allow others to test the artifacts. Log into
@@ -117,10 +125,10 @@ Description of the required steps:
     Some time after you have released the artifacts from the temporary Apache
     staging repository in step (f), they should appear in the central Maven
     repository:
-        http://repo1.maven.org/maven2/org/apache/derby/
+        https://repo1.maven.org/maven2/org/apache/derby/
     After a few more days, the artifacts may also have propagated to other
     repositories / services, for instance the one below:
-        http://mvnrepository.com/artifact/org.apache.derby
+        https://mvnrepository.com/artifact/org.apache.derby
 
     Note that for the 10.6.1 release, within a day the artifacts turned up in
     the central Maven repository (the first link). It took 6 days for the

@@ -26,7 +26,7 @@
   <parent>
     <groupId>org.apache.derby</groupId>
     <artifactId>derby-project</artifactId>
-    <version>ALPHA_VERSION</version>
+    <version>10.16.1.2-talend-20260121</version>
   </parent>
   <artifactId>derbyLocale_zh_CN</artifactId>
   <name>Apache Derby messages: Chinese (Simplified)</name>
@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
-      <version>ALPHA_VERSION</version>
+      <version>10.16.1.2-talend-20260121</version>
       <optional>false</optional>
     </dependency>
   </dependencies>
@@ -50,13 +50,13 @@
                 <execution>
                     <phase>package</phase>
                     <configuration>
-                        <tasks>
+                        <target>
 
             <copy file="${basedir}/../../jars/${sanity}/derbyLocale_zh_CN.jar"
                   tofile="${basedir}/target/${project.build.finalName}.jar"
                   overwrite="true"/>
 
-                        </tasks>
+                        </target>
                     </configuration>
                     <goals>
                         <goal>run</goal>
