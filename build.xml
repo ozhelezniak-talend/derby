@@ -2554,28 +2554,15 @@
     <property name="sanity.name" value="insane"/>
   </target>
 
+    <!-- customized for talend build -->
+    <target name="getsvnversion" unless="changenumber">
+        <tstamp>
+            <format property="changenumber" pattern="yyyyMMdd"/>
+        </tstamp>
+        <echo file="${out.base}/changenumber.properties" message="${changenumber}"/>
+        <echo level="info" message="Revision number set to ${changenumber}."/>
+    </target>
 
-   <target name="getsvnversion" unless="changenumber">
-     <exec executable="svnversion"
-           failifexecutionfails="no"
-           output="${out.base}/changenumber.properties">
-       <arg value="${basedir}"/>
-       <arg value="-n"/>
-     </exec>
-     <loadfile srcFile="${out.base}/changenumber.properties"
-               failonerror="false"
-               property="changenumber">
-       <filterchain>
-         <striplinebreaks/>
-       </filterchain>
-     </loadfile>    
-     <condition property="changenumber" value="???">
-       <not>
-         <isset property="changenumber"/>
-       </not>
-     </condition>
-     <echo level="info" message="Revision number set to ${changenumber}."/>
-   </target>
 
   <target name="cleanjars" depends="setsanityname">
     <delete dir="${jarsdist.dir}/${sanity.name}"/>
