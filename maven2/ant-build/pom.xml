@@ -24,14 +24,14 @@
                         <configuration>
                             <target>
                                 <property name="sane" value="${sane.value}"/>
-                                <ant antfile="${project.basedir}/../../build.xml"
-                                     target="clobber"
-                                     dir="${project.basedir}/../.."
-                                     inheritAll="true"/>
-                                <ant antfile="${project.basedir}/../../build.xml"
-                                     target="buildsource"
-                                     dir="${project.basedir}/../.."
-                                     inheritAll="true"/>
+<!--                                <ant antfile="${project.basedir}/../../build.xml"-->
+<!--                                     target="clobber"-->
+<!--                                     dir="${project.basedir}/../.."-->
+<!--                                     inheritAll="true"/>-->
+<!--                                <ant antfile="${project.basedir}/../../build.xml"-->
+<!--                                     target="buildsource"-->
+<!--                                     dir="${project.basedir}/../.."-->
+<!--                                     inheritAll="true"/>-->
                                 <ant antfile="${project.basedir}/../../build.xml"
                                      target="buildjars"
                                      dir="${project.basedir}/../.."

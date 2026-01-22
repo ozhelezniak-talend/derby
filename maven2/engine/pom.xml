@@ -52,7 +52,7 @@
                     <configuration>
                         <target>
 
-                <copy file="${basedir}/../../jars/${sanity}/derby.jar"
+                <copy file="${basedir}/../../jars/${sanity-folder}/derby.jar"
                       tofile="${basedir}/target/${project.build.finalName}.jar"
                       overwrite="true"/>
 
