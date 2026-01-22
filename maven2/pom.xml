@@ -118,6 +118,6 @@
              Valid values: sane|insane
           -->
         <sanity>sane</sanity>
+        <sane.value>true</sane.value>
     </properties>
-
 </project>
